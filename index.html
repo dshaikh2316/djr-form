@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Job Report - Hirani Group</title>
+  <meta name="description" content="Hirani Group Daily Job Report Form - Inspection and project details">
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 13px;
+      color: #1a1a1a;
+      background: #e8ecf1;
+      padding: 20px;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    /* ===== Page Container ===== */
+    .page {
+      max-width: 850px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px 35px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.12);
+      border-radius: 2px;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 20px;
+    }
+
+    .header-logo {
+      flex-shrink: 0;
+    }
+
+    .header-logo {
+      text-align: center;
+    }
+
+    .header-logo img {
+      width: 80px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .header-logo .logo-brand {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e2a5e;
+      letter-spacing: 1px;
+      margin-top: 2px;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .header-content {
+      flex: 1;
+      text-align: center;
+    }
+
+    .header-content h1 {
+      font-size: 26px;
+      font-weight: 700;
+      text-decoration: underline;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .header-content .email-note {
+      font-size: 12px;
+      color: #2a6e2a;
+      background: #e6f5e6;
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 2px;
+    }
+
+    .header-content .email-note a {
+      color: #1e4d8c;
+      text-decoration: underline;
+    }
+
+    /* ===== Section Tables ===== */
+    .form-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0;
+    }
+
+    .form-table + .form-table {
+      margin-top: -1px;
+    }
+
+    .form-table th,
+    .form-table td {
+      border: 1px solid #1a1a1a;
+      padding: 5px 8px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    /* Section headers */
+    .section-header {
+      background: #c5d9ed;
+      text-align: center !important;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 6px 8px !important;
+      color: #1a1a1a;
+    }
+
+    .section-header-dark {
+      background: #a8c4e0;
+      text-align: left !important;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 6px 8px !important;
+      color: #1a1a1a;
+    }
+
+    /* Label cells */
+    .label-cell {
+      background: #dce7f3;
+      font-weight: 600;
+      width: 120px;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    /* Input cells */
+    .input-cell {
+      background: #fff;
+      min-width: 100px;
+    }
+
+    .input-cell input,
+    .input-cell select,
+    .input-cell textarea {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 13px;
+      color: #1a1a1a;
+      padding: 2px 0;
+    }
+
+    .input-cell select {
+      cursor: pointer;
+      appearance: auto;
+    }
+
+    .input-cell textarea {
+      resize: vertical;
+      min-height: 100%;
+    }
+
+    /* ===== Samples Toggle ===== */
+    .samples-toggle {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: -1px;
+    }
+
+    .samples-toggle td {
+      border: 1px solid #1a1a1a;
+      padding: 6px 8px;
+    }
+
+    .samples-toggle .toggle-label {
+      background: #c5d9ed;
+      font-weight: 700;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .samples-toggle .toggle-options {
+      background: #fff;
+      text-align: center;
+    }
+
+    .radio-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      user-select: none;
+    }
+
+    .radio-group input[type="radio"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #1e2a5e;
+      cursor: pointer;
+    }
+
+    /* ===== Conditional Sections ===== */
+    .conditional-section {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+      margin-top: 0;
+    }
+
+    .conditional-section.visible {
+      max-height: 500px;
+      opacity: 1;
+      margin-top: -1px;
+    }
+
+    /* ===== Text Areas ===== */
+    .text-area-cell {
+      background: #fff;
+      height: 180px;
+      vertical-align: top;
+    }
+
+    .text-area-cell textarea {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      resize: none;
+      font-family: inherit;
+      font-size: 13px;
+      color: #1a1a1a;
+      padding: 4px;
+    }
+
+    .text-area-small {
+      height: 80px;
+    }
+
+    /* ===== Signature Section ===== */
+    .signature-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    .signature-table th,
+    .signature-table td {
+      border: 1px solid #1a1a1a;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .signature-table .sig-label {
+      font-weight: 600;
+      width: 140px;
+      background: #f5f7fa;
+      font-size: 13px;
+    }
+
+    .signature-table .sig-input {
+      background: #fff;
+      min-height: 40px;
+    }
+
+    .signature-table .sig-input input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      font-size: 13px;
+      padding: 2px 0;
+    }
+
+    .sig-sublabel {
+      font-size: 11px;
+      color: #666;
+      font-weight: 400;
+    }
+
+    /* ===== Print Button ===== */
+    .print-bar {
+      max-width: 850px;
+      margin: 16px auto 0;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 10px 28px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-print {
+      background: #1e2a5e;
+      color: #fff;
+    }
+
+    .btn-print:hover {
+      background: #2a3d7a;
+    }
+
+    .btn-reset {
+      background: #e8ecf1;
+      color: #333;
+    }
+
+    .btn-reset:hover {
+      background: #d0d6e0;
+    }
+
+    /* ===== Print Styles ===== */
+    @media print {
+      html, body {
+        width: 210mm;
+        height: 297mm;
+        background: #fff;
+        padding: 0;
+        margin: 0;
+        font-size: 12px;
+      }
+
+      .page {
+        box-shadow: none;
+        border-radius: 0;
+        padding: 8mm 10mm;
+        max-width: 100%;
+        width: 100%;
+        margin: 0;
+      }
+
+      .print-bar {
+        display: none !important;
+      }
+
+      /* Ensure conditional sections print correctly */
+      .conditional-section:not(.visible) {
+        display: none !important;
+      }
+
+      .conditional-section.visible {
+        max-height: none;
+        opacity: 1;
+        overflow: visible;
+      }
+
+      /* Sharpen borders for print */
+      .form-table th,
+      .form-table td,
+      .samples-toggle td,
+      .signature-table th,
+      .signature-table td {
+        border-color: #000;
+        border-width: 1px;
+      }
+
+      /* Prevent page breaks inside sections */
+      .form-table,
+      .samples-toggle,
+      .signature-table,
+      .conditional-section {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      /* Keep header on first page */
+      .header {
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      /* Reduce spacing for print to fit A4 */
+      .header {
+        margin-bottom: 4px;
+      }
+
+      .header-content h1 {
+        font-size: 22px;
+      }
+
+      .header-logo img {
+        width: 65px;
+      }
+
+      .header-logo .logo-brand {
+        font-size: 12px;
+      }
+
+      .section-header {
+        font-size: 13px;
+        padding: 4px 6px !important;
+      }
+
+      .section-header-dark {
+        font-size: 12px;
+        padding: 4px 6px !important;
+      }
+
+      .form-table th,
+      .form-table td {
+        padding: 3px 6px;
+      }
+
+      .text-area-cell {
+        height: 140px;
+      }
+
+      .text-area-cell.text-area-small {
+        height: 60px;
+      }
+
+      .signature-table {
+        margin-top: 10px;
+      }
+
+      .signature-table th,
+      .signature-table td {
+        padding: 6px 8px;
+      }
+
+      /* Ensure backgrounds print */
+      .section-header,
+      .section-header-dark,
+      .label-cell,
+      .toggle-label {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* Textarea content shows in print */
+      textarea {
+        overflow: visible !important;
+      }
+
+      @page {
+        margin: 8mm;
+        size: A4 portrait;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== FORM PAGE ===== -->
+  <div class="page">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-logo">
+        <img src="Hirani-Logo-2025-Transparent.png" alt="Hirani Logo">
+        <span class="logo-brand">Hirani</span>
+      </div>
+      <div class="header-content">
+        <h1>Daily Job Report</h1>
+        <div class="email-note">
+          Once filled, please email the form to <a href="mailto:sireports@hiranigroup.com">sireports@hiranigroup.com</a>
+        </div>
+      </div>
+      <!-- Spacer to center the title -->
+      <div style="width:80px; flex-shrink:0;"></div>
+    </div>
+
+    <!-- ===== Inspection Details ===== -->
+    <table class="form-table" id="tblInspection">
+      <tr>
+        <td colspan="4" class="section-header">Inspection Details</td>
+      </tr>
+      <tr>
+        <td class="label-cell">Date:</td>
+        <td class="input-cell"><input type="date" id="inspDate"></td>
+        <td class="label-cell">Time in:</td>
+        <td class="input-cell"><input type="time" id="inspTimeIn"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Type:</td>
+        <td class="input-cell"><input type="text" id="inspType"></td>
+        <td class="label-cell">Time out:</td>
+        <td class="input-cell"><input type="time" id="inspTimeOut"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Location:</td>
+        <td class="input-cell"><input type="text" id="inspLocation"></td>
+        <td class="label-cell">Status:</td>
+        <td class="input-cell">
+          <select id="inspStatus">
+            <option value="N/A">N/A</option>
+            <option value="Work in Progress">Work in Progress</option>
+            <option value="Conformance">Conformance</option>
+            <option value="Non-Conformance">Non-Conformance</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ===== Project Details ===== -->
+    <table class="form-table" id="tblProject">
+      <tr>
+        <td colspan="4" class="section-header">Project Details</td>
+      </tr>
+      <tr>
+        <td class="label-cell">Name:</td>
+        <td class="input-cell"><input type="text" id="projName"></td>
+        <td class="label-cell">Hirani ID:</td>
+        <td class="input-cell"><input type="text" id="projHiraniId"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Address:</td>
+        <td class="input-cell"><input type="text" id="projAddress"></td>
+        <td class="label-cell">Client:</td>
+        <td class="input-cell"><input type="text" id="projClient"></td>
+      </tr>
+    </table>
+
+    <!-- ===== Samples Made Yes/No Toggle ===== -->
+    <table class="samples-toggle" id="tblSamplesMadeToggle">
+      <tr>
+        <td class="toggle-label" style="width:50%;">Samples made?</td>
+        <td class="toggle-options">
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="samplesMadeToggle" id="samplesMadeYes" value="yes"> Yes
+            </label>
+            <label>
+              <input type="radio" name="samplesMadeToggle" id="samplesMadeNo" value="no" checked> No
+            </label>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ===== If Samples Made (conditional) ===== -->
+    <div class="conditional-section" id="sectionSamplesMade">
+      <table class="form-table">
+        <tr>
+          <td colspan="2" class="section-header">If samples made</td>
+        </tr>
+        <tr>
+          <td class="label-cell" style="width:130px;">Type &amp; Size:</td>
+          <td class="input-cell"><input type="text" id="madeTypeSize"></td>
+        </tr>
+        <tr>
+          <td class="label-cell">Break schedule:</td>
+          <td class="input-cell"><input type="text" id="madeBreakSchedule"></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- ===== Samples Picked Up Yes/No Toggle ===== -->
+    <table class="samples-toggle" id="tblSamplesPickedToggle">
+      <tr>
+        <td class="toggle-label" style="width:50%;">Samples picked up?</td>
+        <td class="toggle-options">
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="samplesPickedToggle" id="samplesPickedYes" value="yes"> Yes
+            </label>
+            <label>
+              <input type="radio" name="samplesPickedToggle" id="samplesPickedNo" value="no" checked> No
+            </label>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ===== If Samples Picked Up (conditional) ===== -->
+    <div class="conditional-section" id="sectionSamplesPickedUp">
+      <table class="form-table">
+        <tr>
+          <td colspan="4" class="section-header">If samples picked up</td>
+        </tr>
+        <tr>
+          <td class="label-cell" style="width:130px;">Type &amp; Size:</td>
+          <td class="input-cell" colspan="3"><input type="text" id="pickedTypeSize"></td>
+        </tr>
+        <tr>
+          <td class="label-cell">Break schedule:</td>
+          <td class="input-cell"><input type="text" id="pickedBreakSchedule"></td>
+          <td class="label-cell" style="width:90px;">Cast date:</td>
+          <td class="input-cell" style="width:120px;"><input type="date" id="pickedCastDate"></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- ===== Brief Scope of Work ===== -->
+    <table class="form-table" id="tblScopeOfWork">
+      <tr>
+        <td class="section-header-dark">Brief scope of Work</td>
+      </tr>
+      <tr>
+        <td class="text-area-cell">
+          <textarea id="scopeOfWork" placeholder="Describe the scope of work..."></textarea>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ===== Additional Information ===== -->
+    <table class="form-table" id="tblAdditionalInfo">
+      <tr>
+        <td class="section-header-dark">Additional information <span style="font-weight:400; font-size:12px;">(Test equipment; Standards/ ASTMs):</span></td>
+      </tr>
+      <tr>
+        <td class="text-area-cell text-area-small">
+          <textarea id="additionalInfo" placeholder="Test equipment, standards, ASTMs..."></textarea>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ===== Signature Section ===== -->
+    <table class="signature-table" id="tblSignatures">
+      <tr>
+        <td class="sig-label">Inspector Name:</td>
+        <td class="sig-input"><input type="text" id="inspectorName"></td>
+        <td class="sig-label">Site Rep <span class="sig-sublabel">(Name &amp; Company)</span></td>
+        <td class="sig-input"><input type="text" id="siteRepName"></td>
+      </tr>
+      <tr>
+        <td class="sig-label">Signature</td>
+        <td class="sig-input" style="min-height:50px;"><input type="text" id="inspectorSignature" style="font-family: 'Brush Script MT', cursive; font-size:18px;"></td>
+        <td class="sig-label">Signature &amp; Date</td>
+        <td class="sig-input" style="min-height:50px;"><input type="text" id="siteRepSignature" style="font-family: 'Brush Script MT', cursive; font-size:18px;"></td>
+      </tr>
+    </table>
+
+  </div>
+
+  <!-- ===== Action Buttons ===== -->
+  <div class="print-bar">
+    <button class="btn btn-reset" id="btnReset" type="button">Reset Form</button>
+    <button class="btn btn-print" id="btnPrint" type="button">🖨️ Print / Save as PDF</button>
+  </div>
+
+  <!-- ===== JavaScript ===== -->
+  <script>
+    // === Samples Made toggle logic ===
+    const samplesMadeYes = document.getElementById('samplesMadeYes');
+    const samplesMadeNo = document.getElementById('samplesMadeNo');
+    const sectionMade = document.getElementById('sectionSamplesMade');
+
+    function toggleSamplesMade() {
+      if (samplesMadeYes.checked) {
+        sectionMade.classList.add('visible');
+      } else {
+        sectionMade.classList.remove('visible');
+      }
+    }
+
+    samplesMadeYes.addEventListener('change', toggleSamplesMade);
+    samplesMadeNo.addEventListener('change', toggleSamplesMade);
+    toggleSamplesMade();
+
+    // === Samples Picked Up toggle logic ===
+    const samplesPickedYes = document.getElementById('samplesPickedYes');
+    const samplesPickedNo = document.getElementById('samplesPickedNo');
+    const sectionPickedUp = document.getElementById('sectionSamplesPickedUp');
+
+    function toggleSamplesPickedUp() {
+      if (samplesPickedYes.checked) {
+        sectionPickedUp.classList.add('visible');
+      } else {
+        sectionPickedUp.classList.remove('visible');
+      }
+    }
+
+    samplesPickedYes.addEventListener('change', toggleSamplesPickedUp);
+    samplesPickedNo.addEventListener('change', toggleSamplesPickedUp);
+    toggleSamplesPickedUp();
+
+    // === Print button ===
+    document.getElementById('btnPrint').addEventListener('click', function () {
+      window.print();
+    });
+
+    // === Reset button ===
+    document.getElementById('btnReset').addEventListener('click', function () {
+      if (confirm('Are you sure you want to reset the entire form?')) {
+        // Reset all inputs
+        document.querySelectorAll('input[type="text"], input[type="date"], input[type="time"]').forEach(function (el) {
+          el.value = '';
+        });
+        document.querySelectorAll('textarea').forEach(function (el) {
+          el.value = '';
+        });
+        document.getElementById('inspStatus').value = 'N/A';
+        samplesMadeNo.checked = true;
+        samplesPickedNo.checked = true;
+        toggleSamplesMade();
+        toggleSamplesPickedUp();
+      }
+    });
+  </script>
+
+</body>
+</html>
